@@ -91,6 +91,11 @@ You can also run the application using Docker.
     docker run -d -p 3978:3978 --env-file .env tnhermione
     ```
 
+### Default Language and Error Messages
+
+- The default language for the application’s responses and error messages is Turkish.
+- You can change the language anytime using the `/language` command (e.g., `/language en` for English).
+
 ---
 
 ## Türkçe
@@ -179,5 +184,10 @@ Uygulamayı Docker kullanarak da çalıştırabilirsiniz.
     ```bash
     docker run -d -p 3978:3978 --env-file .env tnhermione
     ```
+
+### Varsayılan Dil ve Hata Mesajları
+
+- Uygulamanın varsayılan yanıt ve hata mesajları Türkçedir.
+- İstediğiniz zaman `/language` komutunu kullanarak dili değiştirebilirsiniz (örneğin, İngilizce için `/language en`).
 
 ---
