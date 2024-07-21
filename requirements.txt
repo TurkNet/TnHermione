@@ -1,0 +1,14 @@
+Flask
+quart
+openai==0.28.0
+ftfy
+botbuilder-core
+botbuilder-schema
+botbuilder-integration-aiohttp
+aiohttp
+python-dotenv
+requests
+prometheus_client
+deep-translator==1.8.3
+h11==0.13.0
+httpcore==1.0.5
