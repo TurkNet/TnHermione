@@ -58,8 +58,8 @@ def get_chat_response(user_id, user_name, question):
 
     chat_histories[user_id].append({"role": "assistant", "content": response_content})
     
-    print(f"Kullanıcı: {user_name} ({user_id}) sordu: {question}")
-    print(f"Cevap: {response_content}")
+    #print(f"Kullanıcı: {user_name} ({user_id}) sordu: {question}")
+    #print(f"Cevap: {response_content}")
 
     return ftfy.fix_text(response_content)
 

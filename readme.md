@@ -46,6 +46,31 @@ TnHermione is an AI-powered chatbot designed to assist users with a variety of t
 - **POST /api/messages**: Used for integration with Microsoft Teams.
 - **GET /metrics**: Provides Prometheus metrics for monitoring.
 
+### Sensitive Information Filtering
+
+The application filters out sensitive information based on specific keywords. If a message contains any of these keywords, the bot will respond with an error message indicating which line and keyword caused the issue. The following keywords are filtered:
+
+- **password**
+- **passwd**
+- **pass**
+- **secret**
+- **key**
+- **apikey**
+- **token**
+- **ssh-key**
+- **private-key**
+- **credential**
+- **credentials**
+
+#### Example Error Message
+
+If a message contains a sensitive keyword, the bot will respond with an error message similar to the following:
+
+```plaintext
+Your message contains sensitive information and cannot be processed. "Line number" contains the keyword "keyword".
+```
+
+
 ### Installation
 
 1. Clone the repository
@@ -139,6 +164,28 @@ TnHermione, kullanıcılara çeşitli görevlerde yardımcı olmak için tasarla
     ```
 - **POST /api/messages**: Microsoft Teams ile entegrasyon için kullanılır.
 - **GET /metrics**: İzleme için Prometheus metriklerini sağlar.
+
+### Hassas Bilgi Filtreleme
+Uygulama, belirli anahtar kelimelere dayalı olarak hassas bilgileri filtreler. Bir mesaj bu anahtar kelimelerden herhangi birini içeriyorsa, bot hangi satırda ve hangi anahtar kelimenin soruna neden olduğunu belirten bir hata mesajı ile yanıt verir. Filtrelenen anahtar kelimeler şunlardır:
+
+- **password**
+- **passwd**
+- **pass**
+- **secret**
+- **key**
+- **apikey**
+- **token**
+- **ssh-key**
+- **private-key**
+- **credential**
+- **credentials**
+
+#### Örnek Hata Mesajı
+Bir mesaj hassas bir anahtar kelime içeriyorsa, bot aşağıdakine benzer bir hata mesajı ile yanıt verir:
+
+```plaintext
+Mesajınız hassas bilgi içeriyor ve işlenemiyor. "Satır numarası" satırında "anahtar kelime" bulundu.
+```
 
 ### Kurulum
 

@@ -1,7 +1,8 @@
 from botbuilder.core import TurnContext
-from botbuilder.schema import Activity, ActivityTypes
+from botbuilder.schema import Activity, ActivityTypes, Attachment
 from .chat_service import get_chat_response, clear_chat_history, set_user_language, user_languages
 from .translation_service import translate_text
+from utils.codeblocks import extract_code_blocks, detect_language
 
 class MyBot:
     async def on_turn(self, turn_context: TurnContext):
@@ -37,7 +38,41 @@ class MyBot:
             print(f"Kullanıcı: {user_name} ({user_id}) sordu: {question}")
             print(f"Cevap: {response_content}")
 
-            await turn_context.send_activity(response_content)
+            # Kod bloklarını çıkart ve Adaptive Card olarak hazırla
+            codeblocks = extract_code_blocks(response_content)
+            combined_content = ""
+            parts = response_content.split('```')
+
+            for i, part in enumerate(parts):
+                if i % 2 == 0:
+                    combined_content += part
+                else:
+                    codeblock_lines = part.split('\n')
+                    if codeblock_lines and codeblock_lines[0].startswith('```') and codeblock_lines[0].endswith('```'):
+                        code_language = codeblock_lines[0].strip('```')
+                        code_content = '\n'.join(codeblock_lines[1:])
+                    else:
+                        code_language = detect_language(part)
+                        code_content = '\n'.join(codeblock_lines)
+                    
+                    card_content = {
+                        "type": "AdaptiveCard",
+                        "body": [
+                            {
+                                "type": "CodeBlock",
+                                "codeSnippet": f"{code_content}",
+                                "wrap": True,
+                                "language": code_language
+                            }
+                        ],
+                        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                        "version": "1.5"
+                    }
+
+                    card_attachment = Attachment(content_type="application/vnd.microsoft.card.adaptive", content=card_content)
+                    combined_content += f"\n```{code_content}\n```\n"
+            print(f"Combined Content : {combined_content}")
+            await turn_context.send_activity(combined_content)
 
         elif turn_context.activity.type == "conversationUpdate":
             for member in turn_context.activity.members_added:
