@@ -4,6 +4,8 @@ from .chat_service import get_chat_response, clear_chat_history, set_user_langua
 from .translation_service import translate_text
 from utils.codeblocks import extract_code_blocks, detect_language
 
+log_preferences = {}
+
 class MyBot:
     async def on_turn(self, turn_context: TurnContext):
         if turn_context.activity.type == "message":
@@ -13,10 +15,30 @@ class MyBot:
             
             if user_id not in user_languages:
                 user_languages[user_id] = 'tr'
+            
+            if user_id not in log_preferences:
+                log_preferences[user_id] = True
 
             if question.strip().lower() == "/clean":
                 clear_chat_history(user_id)
+                log_preferences[user_id] = True
                 response_message = "Sohbet geçmişi temizlendi. Yeni bir konuşma başlatabilirsiniz."
+                if user_languages[user_id] != 'tr':
+                    response_message = translate_text(response_message, user_languages[user_id])
+                await turn_context.send_activity(response_message)
+                return
+
+            if question.strip().lower() == "/nolog":
+                log_preferences[user_id] = False
+                response_message = "Loglama kapatıldı."
+                if user_languages[user_id] != 'tr':
+                    response_message = translate_text(response_message, user_languages[user_id])
+                await turn_context.send_activity(response_message)
+                return
+
+            if question.strip().lower() == "/log":
+                log_preferences[user_id] = True
+                response_message = "Loglama açıldı."
                 if user_languages[user_id] != 'tr':
                     response_message = translate_text(response_message, user_languages[user_id])
                 await turn_context.send_activity(response_message)
@@ -35,11 +57,10 @@ class MyBot:
 
             response_content = get_chat_response(user_id, user_name, question)
             
-            print(f"Kullanıcı: {user_name} ({user_id}) sordu: {question}")
-            print(f"Cevap: {response_content}")
+            if log_preferences[user_id]:
+                print(f"Kullanıcı: {user_name} ({user_id}) sordu: {question}")
+                print(f"Cevap: {response_content}")
 
-            # Kod bloklarını çıkart ve Adaptive Card olarak hazırla
-            codeblocks = extract_code_blocks(response_content)
             combined_content = ""
             parts = response_content.split('```')
 
@@ -70,8 +91,7 @@ class MyBot:
                     }
 
                     card_attachment = Attachment(content_type="application/vnd.microsoft.card.adaptive", content=card_content)
-                    combined_content += f"\n```{code_content}\n```\n"
-            print(f"Combined Content : {combined_content}")
+                    combined_content += f"\n```{code_content}```\n\n"
             await turn_context.send_activity(combined_content)
 
         elif turn_context.activity.type == "conversationUpdate":

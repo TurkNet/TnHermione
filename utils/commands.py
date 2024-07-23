@@ -2,7 +2,9 @@ SUPPORTED_COMMANDS = {
     "/clean": "Sohbet geçmişini temizler. Kullanım: /clean",
     "/language": "Kullanıcının dil tercihlerini değiştirir. Kullanım: /language <dil_kodu> (örneğin, /language en)",
     "/image": "Belirttiğiniz prompt'a göre bir resim oluşturur. Kullanım: /image <resim_isteği> (örneğin, /image a sunset over a mountain)",
-    "/help": "Desteklenen komutları ve kullanım örneklerini gösterir. Kullanım: /help"
+    "/help": "Desteklenen komutları ve kullanım örneklerini gösterir. Kullanım: /help",
+    "/nolog": "Mesaj ve yanıtların loglanmasını kapatır. Kullanım: /nolog",
+    "/log": "Mesaj ve yanıtların loglanmasını açar. Kullanım: /log"
 }
 
 def get_help_message():

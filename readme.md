@@ -25,6 +25,9 @@ TnHermione is an AI-powered chatbot designed to assist users with a variety of t
 - **/language**: Changes the user's language preference. Usage: `/language <language_code>` (e.g., `/language en`)
 - **/image**: Generates an image based on the provided prompt. Usage: `/image <prompt>` (e.g., `/image a sunset over a mountain`)
 - **/help**: Displays the list of supported commands and their usage. Usage: `/help`
+- **/nolog**: Disables logging of messages and responses. Usage: `/nolog`
+- **/log**: Enables logging of messages and responses. Usage: `/log`
+
 
 ### API Endpoints
 
@@ -144,6 +147,8 @@ TnHermione, kullanıcılara çeşitli görevlerde yardımcı olmak için tasarla
 - **/language**: Kullanıcının dil tercihlerini değiştirir. Kullanım: `/language <dil_kodu>` (örneğin, `/language en`)
 - **/image**: Belirtilen isteme dayalı olarak bir resim oluşturur. Kullanım: `/image <istem>` (örneğin, `/image a sunset over a mountain`)
 - **/help**: Desteklenen komutları ve kullanım örneklerini gösterir. Kullanım: `/help`
+- **/nolog**/: Mesaj ve yanıtların loglanmasını kapatır. Kullanım: `/nolog`
+- **/log**/: Mesaj ve yanıtların loglanmasını açar. Kullanım: `/log`
 
 ### API Endpoints
 
@@ -207,7 +212,7 @@ Mesajınız hassas bilgi içeriyor ve işlenemiyor. "Satır numarası" satırın
     pip install -r requirements.txt
     ```
 
-5. Çevre değişkenlerini ayarlayın:
+5. Ortam değişkenlerini ayarlayın:
     ```bash
     cp .env.example .env
     # .env dosyasını düzenleyin ve API anahtarlarınızı ve diğer ayarları ekleyin
