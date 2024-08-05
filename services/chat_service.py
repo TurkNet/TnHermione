@@ -28,6 +28,13 @@ def get_chat_response(user_id, user_name, question):
 
     chat_histories[user_id].append({"role": "user", "content": question})
 
+    max_tokens = 6000 
+    total_tokens = sum(len(message["content"]) for message in chat_histories[user_id])
+
+    while total_tokens > max_tokens:
+        removed_message = chat_histories[user_id].pop(0)
+        total_tokens -= len(removed_message["content"])
+
     if question.startswith("/image"):
         prompt = question.replace("/image", "").strip()
         image_url = generate_image(prompt)
@@ -57,9 +64,6 @@ def get_chat_response(user_id, user_name, question):
         response_content = translate_text(response_content, user_languages[user_id])
 
     chat_histories[user_id].append({"role": "assistant", "content": response_content})
-    
-    #print(f"Kullanıcı: {user_name} ({user_id}) sordu: {question}")
-    #print(f"Cevap: {response_content}")
 
     return ftfy.fix_text(response_content)
 
